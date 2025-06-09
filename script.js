@@ -1,9 +1,19 @@
+function extractText(msg) {
+  // 尝试不同路径提取内容
+  if (typeof msg.content === "string") return msg.content;
+  if (Array.isArray(msg.content?.parts)) return msg.content.parts.join("\n");
+  if (typeof msg.text === "string") return msg.text;
+  if (msg.message?.content?.parts) return msg.message.content.parts.join("\n");
+  if (msg.message?.text) return msg.message.text;
+  return "(未能识别内容)";
+}
+
 function processFile() {
   const fileInput = document.getElementById("fileInput");
   const userName = document.getElementById("userName").value || "梅宝";
   const assistantName = document.getElementById("assistantName").value || "阿景";
   const outputArea = document.getElementById("outputArea");
-  outputArea.innerHTML = ""; // 清空旧内容
+  outputArea.innerHTML = "";
 
   if (!fileInput.files.length) {
     alert("请上传一个 JSON 文件！");
@@ -14,8 +24,8 @@ function processFile() {
   reader.onload = function (e) {
     try {
       const json = JSON.parse(e.target.result);
-
       const conversations = Array.isArray(json) ? json : json.conversations || json.data || [];
+
       if (!conversations.length) {
         alert("无法读取 JSON 中的对话内容，请确认格式！");
         return;
@@ -25,15 +35,16 @@ function processFile() {
         const fileName = conversation.title || `窗口${index + 1}`;
         const messages = conversation.messages || [];
 
-        if (!Array.isArray(messages)) return;
-
         let content = "";
 
         messages.forEach(msg => {
-          if (msg.role === "user") {
-            content += `${userName}：${msg.content}\n`;
-          } else if (msg.role === "assistant") {
-            content += `${assistantName}：${msg.content}\n`;
+          const role = msg.role || msg.author?.role || msg.message?.role;
+          const text = extractText(msg);
+
+          if (role === "user") {
+            content += `${userName}：${text}\n`;
+          } else if (role === "assistant") {
+            content += `${assistantName}：${text}\n`;
           }
         });
 
