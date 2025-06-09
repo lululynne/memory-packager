@@ -1,4 +1,22 @@
-document.getElementById("fileInput").addEventListener("change", handleFileSelect);
+function processFile() {
+  const fileInput = document.getElementById("fileInput");
+  const file = fileInput.files[0];
+  if (!file) {
+    alert("请先选择一个 JSON 文件！");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      generateTxtFiles(data);
+    } catch (err) {
+      alert("JSON 文件解析失败，请确认格式！");
+    }
+  };
+  reader.readAsText(file);
+}
 
 function handleFileSelect(event) {
     const file = event.target.files[0];
