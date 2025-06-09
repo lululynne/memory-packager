@@ -45,7 +45,7 @@ function generateTxtFiles(data) {
         const blob = new Blob([conversationText], { type: 'text/plain;charset=utf-8' });
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
-        a.download = `${title}.txt`;
+        a.download = `${encodeURIComponent(title)}.txt`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
