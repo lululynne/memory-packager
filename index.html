@@ -6,21 +6,20 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>梅宝 × 阿景 的记忆打包机</h1>
-  <p>上传 conversation JSON 文件 → 拆分多个 txt → 自定义名字 → 下载回忆</p>
+<h1>梅宝 × 阿景 的记忆打包机</h1>
+<p>上传 conversation JSON 文件 → 拆分多个 txt → 自定义名字 → 下载回忆</p>
 
-  <label>你的名字（默认：梅宝）：<input type="text" id="userName" value="梅宝"></label>
-  <label>助手的名字（默认：阿景）：<input type="text" id="assistantName" value="阿景"></label>
-  
-  <input type="file" id="fileInput" accept=".json" />
-<br/>
 <label>你是谁？<input type="text" id="userName" value="梅宝"></label>
 <br/>
 <label>他是谁？<input type="text" id="assistantName" value="阿景"></label>
 <br/><br/>
-  <button onclick="processFile()">生成记忆文档</button>
 
-  <div id="outputArea"></div>
+<input type="file" id="fileInput" accept=".json" />
+<br/><br/>
+
+<button onclick="processFile()">生成记忆文档</button>
+
+<div id="outputArea"></div>
 
   <script src="script.js"></script>
 </body>
