@@ -1,4 +1,4 @@
-document.getElementById("jsonFileInput").addEventListener("change", handleFileSelect);
+document.getElementById("fileInput").addEventListener("change", handleFileSelect);
 
 function handleFileSelect(event) {
     const file = event.target.files[0];
