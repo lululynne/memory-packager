@@ -29,6 +29,7 @@ function generateTxtFiles(data) {
         const mapping = conv.mapping;
         const title = sanitizeFileName(conv.title || `conversation_${index + 1}`);
         let conversationText = "";
+console.log("生成文件：", title);
 
         for (const key in mapping) {
             const msg = mapping[key].message;
@@ -45,7 +46,7 @@ function generateTxtFiles(data) {
         const blob = new Blob([conversationText], { type: 'text/plain;charset=utf-8' });
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
-        a.download = `${encodeURIComponent(title)}.txt`;
+        a.download = `${title}.txt`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
