@@ -1,0 +1,42 @@
+body {
+  font-family: "Helvetica Neue", sans-serif;
+  background: #f9f9fa;
+  color: #222;
+  padding: 40px;
+  max-width: 800px;
+  margin: auto;
+}
+
+h1 {
+  font-size: 24px;
+  color: #c94f7c;
+}
+
+label {
+  display: block;
+  margin: 10px 0;
+}
+
+input[type="text"], input[type="file"] {
+  padding: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background: #c94f7c;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background: #a33c63;
+}
+
+#outputArea {
+  margin-top: 30px;
+}
