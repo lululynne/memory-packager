@@ -1,42 +1,78 @@
 body {
-  font-family: "Helvetica Neue", sans-serif;
-  background: #f9f9fa;
-  color: #222;
+  font-family: "LXGW WenKai", "Helvetica Neue", sans-serif;
+  background: #fef9f3;
+  color: #333;
   padding: 40px;
-  max-width: 800px;
+  max-width: 780px;
   margin: auto;
 }
 
 h1 {
-  font-size: 24px;
+  font-size: 26px;
   color: #c94f7c;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 30px;
 }
 
 label {
   display: block;
-  margin: 10px 0;
+  font-size: 14px;
+  margin: 10px 0 4px;
+  color: #444;
 }
 
 input[type="text"], input[type="file"] {
   padding: 6px;
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 button {
-  padding: 10px 20px;
+  padding: 10px 18px;
   background: #c94f7c;
   color: white;
+  font-weight: bold;
   border: none;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 6px;
+  transition: background 0.3s;
 }
 
 button:hover {
   background: #a33c63;
 }
 
+a {
+  text-decoration: none;
+  display: block;
+  color: #555;
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+
+a:hover {
+  color: #c94f7c;
+  text-decoration: underline;
+}
+
+hr {
+  border: none;
+  border-top: 1px dashed #ccc;
+  margin: 20px 0;
+}
+
 #outputArea {
   margin-top: 30px;
+  background: #fff5f9;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px dashed #f3a6b5;
 }
