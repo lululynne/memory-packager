@@ -17,19 +17,16 @@ function handleFileSelect(event) {
 }
 
 function generateTxtFiles(data) {
-    if (!Array.isArray(data)) {
-        alert("不是有效的 conversations 数组格式！");
-        return;
-    }
+    const conversations = Array.isArray(data) ? data : [data];
 
     const userName = document.getElementById("userName").value || "梅宝";
     const assistantName = document.getElementById("assistantName").value || "阿景";
 
-    data.forEach((conv, index) => {
+    conversations.forEach((conv, index) => {
         const mapping = conv.mapping;
         const title = sanitizeFileName(conv.title || `conversation_${index + 1}`);
         let conversationText = "";
-console.log("生成文件：", title);
+        console.log("生成文件：", title);
 
         for (const key in mapping) {
             const msg = mapping[key].message;
