@@ -1,68 +1,57 @@
-function extractText(msg) {
-  // 尝试不同路径提取内容
-  if (typeof msg.content === "string") return msg.content;
-  if (Array.isArray(msg.content?.parts)) return msg.content.parts.join("\n");
-  if (typeof msg.text === "string") return msg.text;
-  if (msg.message?.content?.parts) return msg.message.content.parts.join("\n");
-  if (msg.message?.text) return msg.message.text;
-  return "(未能识别内容)";
+document.getElementById("jsonFileInput").addEventListener("change", handleFileSelect);
+
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            generateTxtFiles(data);
+        } catch (err) {
+            alert("JSON 文件解析失败，请确认文件格式正确！");
+        }
+    };
+    reader.readAsText(file);
 }
 
-function processFile() {
-  const fileInput = document.getElementById("fileInput");
-  const userName = document.getElementById("userName").value || "梅宝";
-  const assistantName = document.getElementById("assistantName").value || "阿景";
-  const outputArea = document.getElementById("outputArea");
-  outputArea.innerHTML = "";
-
-  if (!fileInput.files.length) {
-    alert("请上传一个 JSON 文件！");
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    try {
-      const json = JSON.parse(e.target.result);
-      const conversations = Array.isArray(json) ? json : json.conversations || json.data || [];
-
-      if (!conversations.length) {
-        alert("无法读取 JSON 中的对话内容，请确认格式！");
+function generateTxtFiles(data) {
+    if (!Array.isArray(data)) {
+        alert("不是有效的 conversations 数组格式！");
         return;
-      }
-
-      conversations.forEach((conversation, index) => {
-        const fileName = conversation.title || `窗口${index + 1}`;
-        const messages = conversation.messages || [];
-
-        let content = "";
-
-        messages.forEach(msg => {
-          const role = msg.role || msg.author?.role || msg.message?.role;
-          const text = extractText(msg);
-
-          if (role === "user") {
-            content += `${userName}：${text}\n`;
-          } else if (role === "assistant") {
-            content += `${assistantName}：${text}\n`;
-          }
-        });
-
-        const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-        const url = URL.createObjectURL(blob);
-
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = `${fileName}.txt`;
-        link.textContent = `📎 下载「${fileName}.txt」`;
-        link.style.display = "block";
-
-        outputArea.appendChild(link);
-      });
-    } catch (err) {
-      alert("读取 JSON 文件失败，请检查格式是否正确！");
     }
-  };
 
-  reader.readAsText(fileInput.files[0]);
+    const userName = document.getElementById("userName").value || "梅宝";
+    const assistantName = document.getElementById("assistantName").value || "阿景";
+
+    data.forEach((conv, index) => {
+        const mapping = conv.mapping;
+        const title = sanitizeFileName(conv.title || `conversation_${index + 1}`);
+        let conversationText = "";
+
+        for (const key in mapping) {
+            const msg = mapping[key].message;
+            if (!msg || !msg.author || !msg.content || !msg.content.parts) continue;
+
+            const role = msg.author.role;
+            const text = msg.content.parts.join("\n").trim();
+            if (text) {
+                const speaker = role === "user" ? userName : assistantName;
+                conversationText += `${speaker}：${text}\n\n`;
+            }
+        }
+
+        const blob = new Blob([conversationText], { type: 'text/plain;charset=utf-8' });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `${title}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
+}
+
+function sanitizeFileName(name) {
+    return name.replace(/[<>:"\/\\|?*]/g, "_");
 }
