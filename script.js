@@ -95,3 +95,10 @@ function generateTxtFiles(data) {
 function sanitizeFileName(name) {
     return name.replace(/[<>:"\/\\|?*]/g, "_");
 }
+window.addEventListener("load", () => {
+  const startup = document.getElementById("startup-screen");
+  if (startup) {
+    startup.style.opacity = "0";
+    setTimeout(() => startup.remove(), 800);
+  }
+});
